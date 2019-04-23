@@ -1,0 +1,16 @@
+name: mytheme
+description: Drupal first test my theme
+type: theme
+core: 8.x
+package: Core
+project: 'drupal'
+datestamp: 1502903957
+libraries:
+  - my_theme/global-css
+  - my_theme/global-js
+  - my_theme/bootstrap
+
+regions:
+  header: 'Header'
+  content: 'Content'
+  footer: 'Footer'

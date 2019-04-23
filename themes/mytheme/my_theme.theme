@@ -1,0 +1,55 @@
+<?php
+use \Drupal\Core\StringTranslation\TranslationInterface;
+/**
+ * Implements hook_preprocess_HOOK() for HTML document templates.
+ *
+ * Adds body classes if certain regions have content.
+ */
+function my_theme_preprocess(&$variables) {
+    $storage = \Drupal::entityQuery('node');
+    $storage->condition('type', 'carusel');
+    $storage->condition('status', 1);
+    $nids = $storage->execute();
+    $nodes = \Drupal\node\Entity\Node::loadMultiple($nids);
+    $items = [];
+    foreach ($nids as $num){
+        $uri = $nodes[$num]->field_carusel_image->entity->uri->value;
+//        $desc = $nodes[$num]->field_description->value;
+        $desc_en = $desc_ru = False;
+        if($nodes[$num]->hasTranslation('en')){
+            $desc_en = $nodes[$num]->getTranslation('en')->field_description->value;
+        }
+        else{
+            $desc_en = $nodes[$num]->getTranslation('ru')->field_description->value;
+        }
+        if($nodes[$num]->hasTranslation('ru')){
+            $desc_ru = $nodes[$num]->getTranslation('ru')->field_description->value;
+        }
+        else{
+            $desc_ru = $nodes[$num]->getTranslation('en')->field_description->value;
+        }
+        $my_path = file_create_url($uri);
+        $item = [
+            'img_path' => $my_path,
+            'desc_en' => $desc_en,
+            'desc_ru' => $desc_ru,
+        ];
+        array_push($items,$item);
+    }
+    $variables['items'] = $items;
+}
+
+//function show(){
+//    $storage = \Drupal::entityQuery('node');
+//    $storage->condition('type', 'carusel');
+//    $storage->condition('status', 1);
+//    $nids = $storage->execute();
+//    $nodes = \Drupal\node\Entity\Node::loadMultiple($nids);
+//    $path_arr = [];
+//    foreach ($nids as $num){
+//        $uri = $nodes[$num]->get('field_carusel_image')->entity->uri->value;
+//        $my_path = file_create_url($uri);
+//        array_push($path_arr,$my_path);
+//    }
+//    return $path_arr;
+//}

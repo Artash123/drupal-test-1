@@ -1,0 +1,6 @@
+carousel_show:
+  path: /carousel/show
+  defaults:
+    _controller: Drupal\carousel\Controller\CarouselController::show
+  requirements:
+    _permission: "access content"

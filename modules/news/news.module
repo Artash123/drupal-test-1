@@ -1,0 +1,10 @@
+<?php
+
+function carousel_theme() {
+    $theme['hello_page'] = [
+        'variables' => ['name' => NULL],
+        'template' => 'carousel'
+    ];
+
+    return $theme;
+}
